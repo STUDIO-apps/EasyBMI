@@ -17,9 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
+import android.widget.TextView;
 import java.util.Locale;
 
 
@@ -126,12 +130,24 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     }
 
     public static class Calculator extends Fragment {
-        @Override
+
+        //EditText weight_entry = (EditText) getView().findViewById(R.id.weight_entry);
+        //EditText height_entry = (EditText) getView().findViewById(R.id.height_entry);
+        //TextView weight_label = (TextView) getView().findViewById(R.id.weight_label);
+        //TextView height_label = (TextView) getView().findViewById(R.id.height_label);
+        //TextView calc_label = (TextView) getView().findViewById(R.id.total_label);
+        //Button calculate = (Button) getView().findViewById(R.id.calculate);
+
+
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_calculator, container, false);
             return rootView;
         }
+
+
+
+
     }
 
     public static class Scale extends Fragment {
