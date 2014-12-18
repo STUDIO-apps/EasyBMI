@@ -26,11 +26,22 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import java.util.Locale;
 
+import uk.co.appsbystudio.easybmi.SQL.DBHelper;
+import uk.co.appsbystudio.easybmi.SQL.HistoryRepo;
+import uk.co.appsbystudio.easybmi.SQL.SQL_History_table;
+
 
 public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    private DBHelper dbHelper;
+    EditText weight_entry = (EditText) findViewById(R.id.weight_entry);
+    EditText height_entry = (EditText) findViewById(R.id.height_entry);
+    TextView weight_label = (TextView) findViewById(R.id.weight_label);
+    TextView height_label = (TextView) findViewById(R.id.height_label);
+    TextView calc_label = (TextView) findViewById(R.id.total_label);
+    Button calculate = (Button) findViewById(R.id.calculate);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,25 +140,14 @@ public class MainActivity extends ActionBarActivity implements android.support.v
         }
     }
 
+
     public static class Calculator extends Fragment {
-
-        //EditText weight_entry = (EditText) getView().findViewById(R.id.weight_entry);
-        //EditText height_entry = (EditText) getView().findViewById(R.id.height_entry);
-        //TextView weight_label = (TextView) getView().findViewById(R.id.weight_label);
-        //TextView height_label = (TextView) getView().findViewById(R.id.height_label);
-        //TextView calc_label = (TextView) getView().findViewById(R.id.total_label);
-        //Button calculate = (Button) getView().findViewById(R.id.calculate);
-
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_calculator, container, false);
             return rootView;
         }
-
-
-
-
     }
 
     public static class Scale extends Fragment {

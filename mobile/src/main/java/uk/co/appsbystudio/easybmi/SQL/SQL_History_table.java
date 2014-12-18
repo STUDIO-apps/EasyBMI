@@ -15,4 +15,6 @@ public class SQL_History_table {
     public int weight_1;
     public int height_1;
     public int bmi_1;
+
+
 }
