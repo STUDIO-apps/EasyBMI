@@ -63,7 +63,8 @@
             android:text="Calculate BMI"
             android:id="@+id/calculate"
             android:layout_gravity="center_horizontal"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone"
+            android:onClick="onClick" />
 
         <Space
             android:layout_width="fill_parent"
