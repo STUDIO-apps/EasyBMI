@@ -6,77 +6,171 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="349dp"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:weightSum="1">
+        android:layout_gravity="center">
 
         <Space
-            android:layout_width="fill_parent"
-            android:layout_height="50px" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Weight"
-            android:id="@+id/weight_label"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:gravity="center" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/weight_entry"
+            android:layout_width="match_parent"
+            android:layout_height="50px"
             android:layout_gravity="center_horizontal" />
 
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Weight"
+                android:id="@+id/weight_label" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+            <Spinner
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/weight_unit"
+                android:spinnerMode="dropdown"
+                android:clickable="false" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/weight_entry"
+                android:layout_weight="1" />
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="20px" />
+
+        </TableRow>
+
         <Space
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.05" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Height"
-            android:id="@+id/height_label"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:gravity="center" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/height_entry"
+            android:layout_width="match_parent"
+            android:layout_height="50px"
             android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calculate BMI"
-            android:id="@+id/calculate"
-            android:layout_gravity="center_horizontal"
-            android:imeOptions="actionDone"
-            android:onClick="onClick" />
+            android:layout_gravity="center_horizontal">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="20px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Height"
+                android:id="@+id/height_label" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+            <Spinner
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/height_unit"
+                android:spinnerMode="dialog" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/height_entry"
+                android:layout_weight="1" />
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+        </TableRow>
 
         <Space
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.05" />
+            android:layout_width="match_parent"
+            android:layout_height="50px"
+            android:layout_gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="fill_parent"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Your BMI is: "
-            android:id="@+id/total_label" />
+            android:layout_gravity="center_horizontal">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculate"
+                android:id="@+id/calculate"
+                android:onClick="onClick" />
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="match_parent" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save?"
+                android:id="@+id/save_data"
+                android:checked="false" />
+
+        </TableRow>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50px"
+            android:layout_gravity="center_horizontal" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Space
+                android:layout_width="50px"
+                android:layout_height="20px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="YOUR BMI IS "
+                android:id="@+id/total_label" />
+        </TableRow>
+
     </LinearLayout>
 </FrameLayout>

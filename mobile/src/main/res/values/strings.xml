@@ -7,5 +7,14 @@
     <string name="title_section1">Calculator</string>
     <string name="title_section2">Scale</string>
     <string name="title_section3">History</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="weight_units">
+        <item>Kg</item>
+        <item>lb</item>
+    </string-array>
+    <string-array name="height_units">
+        <item>Centimeter</item>
+        <item>Meter</item>
+    </string-array>
 
 </resources>

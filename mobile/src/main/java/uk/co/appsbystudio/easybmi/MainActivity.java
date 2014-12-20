@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,12 +15,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,13 +33,14 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import java.util.Locale;
 
 import uk.co.appsbystudio.easybmi.SQL.DBHelper;
 import uk.co.appsbystudio.easybmi.SQL.HistoryRepo;
 import uk.co.appsbystudio.easybmi.SQL.SQL_History_table;
-import uk.co.appsbystudio.easybmi.Scale_Info.scale_detail;
 
 
 public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
@@ -70,6 +74,8 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+
     }
 
     public void onClick(View view){
@@ -90,8 +96,13 @@ public class MainActivity extends ActionBarActivity implements android.support.v
             float h = Float.parseFloat(height_entry.getText().toString());
 
             t = (float) ((double)Math.round(10D * (double)(w / (h * h))) / 10D);
-            calc_label.setText("Your BMI is: " + Float.toString(t));
+            calc_label.setText("YOUR BMI IS " + Float.toString(t));
         }
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(weight_entry.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(height_entry.getWindowToken(), 0);
+
     }
 
     @Override
@@ -166,6 +177,10 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
     public static class Calculator extends Fragment {
 
+        public void onCreate(Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
+        }
+
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_calculator, container, false);
@@ -201,37 +216,54 @@ public class MainActivity extends ActionBarActivity implements android.support.v
             mListView = (AbsListView) view.findViewById(android.R.id.list);
             ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
-            mListView.setOnItemClickListener(new itemSelected());
+            //mListView.setOnItemClickListener(new itemSelected());
 
             return view;
         }
 
-        private class  itemSelected implements  ListView.OnItemClickListener{
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        }
+        //private class  itemSelected implements  ListView.OnItemClickListener{
+        //    @Override
+        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //        selectItem(position);
+        //    }
+        //}
 
-        public void selectItem(int position) {
-            TextView detail = (TextView) getView().findViewById(R.id.detail);
-            Intent intent = new Intent(getActivity(), scale_detail.class);
+        //public void selectItem(int position) {
+        //    int itemPosition = position;
+        //    Intent intent = new Intent(getActivity(), Detail.class);
+        //    if (position == 0) {
+        //        String string = new String("position 0");
+        //        intent.putExtra("key", "0");
+        //        startActivity(intent);
+        //    }
+        //    if (position == 1) {
+        //        String string = new String("position 1");
+        //        intent.putExtra("key", "1");
+        //        startActivity(intent);
+        //    }
+        //    if (position == 2) {
+        //        String string = new String("position 2");
+        //        intent.putExtra("key", "2");
+        //        startActivity(intent);
+        //    }
+        //    if (position == 3) {
+        //        String string = new String("position 3");
+        //        intent.putExtra("key", "3");
+        //        startActivity(intent);
+        //    }
+        //    if (position == 4) {
+         //       String string = new String("position 4");
+        //        intent.putExtra("key", "4");
+        //        startActivity(intent);
+        //    }
+         //   if (position == 5) {
+         //       String string = new String("position 5");
+         //       intent.putExtra("key", "5");
+         //       startActivity(intent);
+         //   }
 
-            switch (position) {
-                case 0:
-                    startActivity(intent);
-                case 1:
-                    startActivity(intent);
-                case 2:
-                    startActivity(intent);
-                case 3:
-                    startActivity(intent);
-                case 4:
-                    startActivity(intent);
-                case 5:
-                    startActivity(intent);
-            }
-        }
+
+        //}
 
     }
 
@@ -265,6 +297,5 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
             return view;
         }
-
     }
 }
