@@ -216,6 +216,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
         public void selectItem(int position) {
             TextView detail = (TextView) getView().findViewById(R.id.detail);
             Intent intent = new Intent(getActivity(), scale_detail.class);
+
             switch (position) {
                 case 0:
                     startActivity(intent);
