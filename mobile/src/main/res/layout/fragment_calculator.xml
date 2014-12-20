@@ -43,13 +43,6 @@
                 android:layout_width="50px"
                 android:layout_height="match_parent" />
 
-            <Spinner
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:id="@+id/weight_unit"
-                android:spinnerMode="dropdown"
-                android:clickable="false" />
-
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -57,6 +50,13 @@
                 android:ems="10"
                 android:id="@+id/weight_entry"
                 android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/weight_unit"
+                android:spinnerMode="dropdown"
+                android:clickable="false" />
 
             <Space
                 android:layout_width="50px"
@@ -96,12 +96,6 @@
                 android:layout_width="50px"
                 android:layout_height="match_parent" />
 
-            <Spinner
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:id="@+id/height_unit"
-                android:spinnerMode="dialog" />
-
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,6 +103,12 @@
                 android:ems="10"
                 android:id="@+id/height_entry"
                 android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:id="@+id/height_unit"
+                android:spinnerMode="dialog" />
 
             <Space
                 android:layout_width="50px"
