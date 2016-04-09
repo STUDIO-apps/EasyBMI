@@ -1,176 +1,94 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="uk.co.appsbystudio.easybmi.Calculator">
-
-    <!-- TODO: Update blank fragment layout -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="uk.co.appsbystudio.easybmi.pages.Calculator">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:layout_gravity="center_horizontal" />
-
-        <TableRow
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:inputType="numberDecimal"
+            android:id="@+id/weightEntry"
+            android:ems="10"
+            android:hint="@string/wightText"
+            android:layout_gravity="center_vertical" />
 
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Weight"
-                android:id="@+id/weight_label" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
+        <Spinner
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:weightSum="1">
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/weight_entry"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:id="@+id/weight_unit"
-                android:spinnerMode="dropdown"
-                android:clickable="false" />
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="20px" />
-
-        </TableRow>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:layout_gravity="center_horizontal" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="20px" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Height"
-                android:id="@+id/height_label" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/height_entry"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:id="@+id/height_unit"
-                android:spinnerMode="dialog" />
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-        </TableRow>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:layout_gravity="center_horizontal" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calculate"
-                android:id="@+id/calculate"
-                android:onClick="onClick" />
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="match_parent" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Save?"
-                android:id="@+id/save_data"
-                android:checked="false" />
-
-        </TableRow>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50px"
-            android:layout_gravity="center_horizontal" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <Space
-                android:layout_width="50px"
-                android:layout_height="20px" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="YOUR BMI IS "
-                android:id="@+id/total_label" />
-        </TableRow>
+            android:id="@+id/weightUnit"
+            android:layout_gravity="center_vertical"
+            android:spinnerMode="dialog" />
 
     </LinearLayout>
-</FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/linearLayout2">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:id="@+id/heightEntry"
+            android:ems="10"
+            android:hint="@string/heightText"
+            android:layout_gravity="center_vertical" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/heightUnit"
+            android:layout_gravity="center_vertical"
+            android:spinnerMode="dialog" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calculateButton"
+            android:id="@+id/calculate"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="8dp" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/rememberValue"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

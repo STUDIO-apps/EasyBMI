@@ -1,46 +1,31 @@
 package uk.co.appsbystudio.easybmi;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
+
 import java.util.Locale;
 
-import uk.co.appsbystudio.easybmi.SQL.DBHelper;
-import uk.co.appsbystudio.easybmi.SQL.HistoryRepo;
-import uk.co.appsbystudio.easybmi.SQL.SQL_History_table;
+import uk.co.appsbystudio.easybmi.pages.Calculator;
+import uk.co.appsbystudio.easybmi.pages.History;
+import uk.co.appsbystudio.easybmi.pages.Scale;
 
 
 public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
@@ -75,35 +60,15 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                             .setTabListener(this));
         }
 
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(mTabChanged, new IntentFilter("change.tab"));
     }
 
-    public void onClick(View view){
-        EditText weight_entry = (EditText) findViewById(R.id.weight_entry);
-        EditText height_entry = (EditText) findViewById(R.id.height_entry);
-        TextView weight_label = (TextView) findViewById(R.id.weight_label);
-        TextView height_label = (TextView) findViewById(R.id.height_label);
-        TextView calc_label = (TextView) findViewById(R.id.total_label);
-        Button calculate = (Button) findViewById(R.id.calculate);
-        String check_1 = weight_entry.getText().toString();
-        String check_2 = height_entry.getText().toString();
-
-        if (check_1.matches("")|| check_2.matches("")){
-            return;
-        } else {
-            float t;
-            float w = Float.parseFloat(weight_entry.getText().toString());
-            float h = Float.parseFloat(height_entry.getText().toString());
-
-            t = (float) ((double)Math.round(10D * (double)(w / (h * h))) / 10D);
-            calc_label.setText("YOUR BMI IS " + Float.toString(t));
+    private BroadcastReceiver mTabChanged = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mViewPager.setCurrentItem(1);
         }
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(weight_entry.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(height_entry.getWindowToken(), 0);
-
-    }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -115,11 +80,8 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -171,131 +133,6 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                     return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
-        }
-    }
-
-
-    public static class Calculator extends Fragment {
-
-        public void onCreate(Bundle savedInstanceState){
-            super.onCreate(savedInstanceState);
-        }
-
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_calculator, container, false);
-            return rootView;
-        }
-    }
-
-    public static class Scale extends Fragment {
-
-        private AbsListView mListView;
-        private ListAdapter mAdapter;
-
-        public Scale() {
-
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            String[] scale_values = new String[] {"Very severely underweight", "Severely underweight", "Underweight", "Normal", "Overweight", "Obese"};
-
-            mAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, android.R.id.text1, scale_values);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_scale, container, false);
-
-            // Set the adapter
-            mListView = (AbsListView) view.findViewById(android.R.id.list);
-            ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
-            //mListView.setOnItemClickListener(new itemSelected());
-
-            return view;
-        }
-
-        //private class  itemSelected implements  ListView.OnItemClickListener{
-        //    @Override
-        //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //        selectItem(position);
-        //    }
-        //}
-
-        //public void selectItem(int position) {
-        //    int itemPosition = position;
-        //    Intent intent = new Intent(getActivity(), Detail.class);
-        //    if (position == 0) {
-        //        String string = new String("position 0");
-        //        intent.putExtra("key", "0");
-        //        startActivity(intent);
-        //    }
-        //    if (position == 1) {
-        //        String string = new String("position 1");
-        //        intent.putExtra("key", "1");
-        //        startActivity(intent);
-        //    }
-        //    if (position == 2) {
-        //        String string = new String("position 2");
-        //        intent.putExtra("key", "2");
-        //        startActivity(intent);
-        //    }
-        //    if (position == 3) {
-        //        String string = new String("position 3");
-        //        intent.putExtra("key", "3");
-        //        startActivity(intent);
-        //    }
-        //    if (position == 4) {
-         //       String string = new String("position 4");
-        //        intent.putExtra("key", "4");
-        //        startActivity(intent);
-        //    }
-         //   if (position == 5) {
-         //       String string = new String("position 5");
-         //       intent.putExtra("key", "5");
-         //       startActivity(intent);
-         //   }
-
-
-        //}
-
-    }
-
-    public static class History extends Fragment {
-
-        private AbsListView mListView;
-        private ListAdapter mAdapter;
-
-        public History() {
-
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            String[] values = new String[] {"1", "2", "3", "4"};
-
-            mAdapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, android.R.id.text1, values);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.fragment_history, container, false);
-
-            // Set the adapter
-            mListView = (AbsListView) view.findViewById(android.R.id.list);
-            ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
-            return view;
         }
     }
 }
