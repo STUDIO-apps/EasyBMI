@@ -69,6 +69,7 @@ public class Calculator extends Fragment {
         heightResult = view.findViewById(R.id.heightResult);
         resultsLayout = view.findViewById(R.id.results);
 
+        //If the shared preferences remember value is 1 then we always set the checkbox to checked
         switch (sharedPreferences.getInt("remember", 0)) {
             case 1:
                 remember.setChecked(true);
@@ -78,6 +79,7 @@ public class Calculator extends Fragment {
                 break;
         }
 
+        //If the keyboards enter key is used instead of the calculate button, we register the even here and react
         heightText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -89,6 +91,7 @@ public class Calculator extends Fragment {
             }
         });
 
+        //When the calculate button is pressed, we call calculateBmi()
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +102,7 @@ public class Calculator extends Fragment {
         view.findViewById(R.id.autoSaveYes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //If the user wishes to enable auto-save, this will edit the shared preferences and set the auto-save dialog to invisible
                 editor.putInt("remember", 1).apply();
                 autoSave.setVisibility(View.INVISIBLE);
             }
@@ -107,6 +111,7 @@ public class Calculator extends Fragment {
         view.findViewById(R.id.autoSaveNo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //If the user wishes to keep auto-save disabled, this will edit the shared preferences and set the auto-save dialog to invisible
                 editor.putInt("remember", 2).apply();
                 autoSave.setVisibility(View.INVISIBLE);
             }
@@ -120,6 +125,7 @@ public class Calculator extends Fragment {
         String heightValueString = heightText.getText().toString();
         float bmi;
 
+        //Make sure values have been inserted into the entry text widgets before  trying to calculate BMI
         if (weightValueString.matches("") && heightValueString.matches("")) {
             weightText.setError("Please enter your weight!");
             heightText.setError("Please enter your height!");
@@ -131,19 +137,27 @@ public class Calculator extends Fragment {
             Float weightValue = Float.parseFloat(weightText.getText().toString());
             Float heightValue = Float.parseFloat(heightText.getText().toString());
 
+            //Calculate BMI
             bmi = (float) ((double) Math.round(10D * (double) (weightValue / (heightValue * heightValue))) / 10D);
 
             if (remember.isChecked()) {
+                //If the user wishes to remember their BMI
+
+                //A DateTime value is generated for the purpose of tracking over time
+                //and maybe integrating a graph into the app.
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new java.util.Date());
 
+                //The BMI, weight, height and DateTime are all inserted into the database
                 SavedItemsModel savedItemsModel = new SavedItemsModel(bmi, weightValue, heightValue, currentDateTimeString);
                 db.saveData(savedItemsModel);
 
-                //TODO: Show remember to remember
+                //If auto-save has not been asked
+                //Show the layout
                 if (sharedPreferences.getInt("remember", 0) == 0) {
                     autoSave.setVisibility(View.VISIBLE);
                 }
 
+                //This calls the update task for the scales
                 Intent intent = new Intent("update.scale");
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
 
@@ -152,17 +166,20 @@ public class Calculator extends Fragment {
             weightText.setText("");
             heightText.setText("");
 
+            //The user needs a way to see their results
             bmiResult.setText(getString(R.string.your_bmi_is, bmi));
             weightResult.setText(getString(R.string.weight_value, weightValue));
             heightResult.setText(getString(R.string.height_value, heightValue));
             resultsLayout.setVisibility(View.VISIBLE);
 
+            //Hide the keyboard when the calculate button is pressed
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(weightText.getWindowToken(), 0);
             imm.hideSoftInputFromWindow(heightText.getWindowToken(), 0);
         }
     }
 
+    //Make sure the user can continue using the app even after rotation
     @Override
     public void onPause() {
         super.onPause();
@@ -180,7 +197,7 @@ public class Calculator extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
+        //Close the database to prevent leak
         db.close();
     }
 }

@@ -13,6 +13,8 @@ import uk.co.appsbystudio.easybmi.pages.adapters.HistoryListAdapter;
 
 public class GetBMI extends AsyncTask<Void, Void, Void> {
 
+    //Getting all the data from the database and displaying it in a RecyclerView in the History tab
+
     private final Context context;
     private final RecyclerView recyclerView;
 
@@ -38,6 +40,7 @@ public class GetBMI extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         for (SavedItemsModel savedItemsModel : savedItemsModels) {
+            //Add data to ArrayLists
             bmi.add(savedItemsModel.getBmi());
             weight.add(savedItemsModel.getWeight());
             height.add(savedItemsModel.getHeight());
@@ -49,6 +52,7 @@ public class GetBMI extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        //Create adapter and set the RecyclerView adapter.
         HistoryListAdapter historyListAdapter = new HistoryListAdapter(context, bmi, weight, height, timeStamp);
         recyclerView.setAdapter(historyListAdapter);
 

@@ -31,8 +31,10 @@ public class Scale extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         scaleList.setLayoutManager(layoutManager);
 
+        //We call this on the creation of the fragment so that the RecyclerView is populated even if the user hasn't calculated a value.
         new UpdateScale(getContext(), scaleList).execute();
 
+        //Is called every time an update is required in this fragment
         BroadcastReceiver getLatestBMI = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Setup the toolbar and tabs
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int position) {
+                //Add fragments to the ViewPager
                 switch (position) {
                     case 0:
                         return new Calculator();
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public CharSequence getPageTitle(int position) {
+                //Set the titles for each tab
                 switch (position) {
                     case 0:
                         return "Calculate";
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(fragmentPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        //Create the shared preferences "remember" and set it equal to 0
         SharedPreferences sharedPreferences = getSharedPreferences("remember", Context.MODE_PRIVATE);
         if (sharedPreferences.getInt("remember", 0) == 0) {
             SharedPreferences.Editor editor = sharedPreferences.edit();

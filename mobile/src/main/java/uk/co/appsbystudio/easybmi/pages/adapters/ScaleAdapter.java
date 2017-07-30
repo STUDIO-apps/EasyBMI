@@ -38,7 +38,8 @@ public class ScaleAdapter extends RecyclerView.Adapter<ScaleAdapter.ViewHolder> 
         holder.scale.setText(scaleList[position]);
         holder.info.setText(infoList[position]);
 
-
+        //Depending on the BMI value, find the appropriate place in the list view and change the color of the scale text to make it stand out
+        //TODO: Provide more info when the user selects on of the items?
         if (bmiResult < 15 && bmiResult > 0 && scaleList[position].equals("Very severely underweight")) {
             holder.bmiValue.setText(String.format(Locale.ENGLISH, "%.2f", bmiResult));
             holder.scale.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.colorAccent, null));

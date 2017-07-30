@@ -24,6 +24,7 @@ public class History extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
+        //Call GetBMI to populate the RecyclerView
         new GetBMI(getContext(), recyclerView).execute();
 
         return view;

@@ -43,6 +43,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         holder.dateTimeText.setText(timeStamp.get(position).toString());
 
         if (holder.getAdapterPosition() == 0) {
+            //Highlight the latest result
             holder.bmiText.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.colorAccent, null));
         }
 
