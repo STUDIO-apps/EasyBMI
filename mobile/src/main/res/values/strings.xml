@@ -3,30 +3,21 @@
 
     <string name="app_name">EasyBMI</string>
     <string name="title_activity_main">EasyBMI</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_section1">Calculator</string>
-    <string name="title_section2">Scale</string>
-    <string name="title_section3">History</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="wightText">Weight</string>
-    <string name="heightText">Height</string>
+    <string name="wightText">Weight (Kg)</string>
+    <string name="heightText">Height (Metres)</string>
     <string name="calculateButton">Calculate</string>
-
-    <string-array name="weight_units">
-        <item>Kg</item>
-    </string-array>
-
-    <string-array name="height_units">
-        <item>Metres</item>
-    </string-array>
-
-    <string-array name="scaleValues">
-        <item>Very severely underweight</item>
-        <item>Severely underweight</item>
-        <item>Underweight</item>
-        <item>Normal</item>
-        <item>Overweight</item>
-        <item>Obese</item>
-    </string-array>
+    <string name="bmi_scale">BMI Scale</string>
+    <string name="save">Save</string>
+    <string name="always_save">Always save?</string>
+    <string name="yes">Yes</string>
+    <string name="spacer">|</string>
+    <string name="no">No</string>
+    <string name="click_to_see_more">Click to see more!</string>
+    <string name="your_bmi_is">Your BMI is %1$f</string>
+    <string name="weight_value">Weight: %1$f</string>
+    <string name="height_value">Height: %1$f</string>
+    <string name="bmi_history">BMI: %1$s</string>
+    <string name="weight_history">Weight: %1$s</string>
+    <string name="height_history">Height: %1$s</string>
 
 </resources>

@@ -2,21 +2,22 @@ package uk.co.appsbystudio.easybmi.pages;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import java.sql.Date;
 import java.text.DateFormat;
 
 import uk.co.appsbystudio.easybmi.R;
@@ -25,128 +26,161 @@ import uk.co.appsbystudio.easybmi.database.SavedItemsModel;
 
 public class Calculator extends Fragment {
 
-    Spinner weightSpinner;
-    Spinner heightSpinner;
+    private EditText weightText;
+    private EditText heightText;
+    private String weightString;
+    private String heightString;
 
-    Button calculate;
+    private TextView bmiResult;
+    private TextView weightResult;
+    private TextView heightResult;
+    private ConstraintLayout resultsLayout;
 
-    EditText weightText;
-    EditText heightText;
+    private CheckBox remember;
 
-    Integer weightType = 0;
-    Integer heightType = 0;
+    private LinearLayout autoSave;
 
-    Float weightValue;
-    Float heightValue;
-
-    CheckBox remember;
-
-    DatabaseHelper db;
+    private DatabaseHelper db;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public Calculator() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calculator, container, false);
+        final View view = inflater.inflate(R.layout.fragment_calculator, container, false);
 
-        final Intent changeTab = new Intent("change.tab");
-        final Intent openScaleSection = new Intent("open.scale");
+        sharedPreferences = getActivity().getSharedPreferences("remember", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
-        calculate = (Button) view.findViewById(R.id.calculate);
+        db = new DatabaseHelper(getActivity());
 
-        weightText = (EditText) view.findViewById(R.id.weightEntry);
-        heightText = (EditText) view.findViewById(R.id.heightEntry);
+        Button calculate = view.findViewById(R.id.calculate);
 
-        weightSpinner = (Spinner) view.findViewById(R.id.weightUnit);
-        heightSpinner = (Spinner) view.findViewById(R.id.heightUnit);
+        weightText = view.findViewById(R.id.weightEntry);
+        heightText = view.findViewById(R.id.heightEntry);
 
-        remember = (CheckBox) view.findViewById(R.id.rememberValue);
+        remember = view.findViewById(R.id.rememberValue);
 
-        ArrayAdapter<CharSequence> weightAdapter = ArrayAdapter.createFromResource(getContext(), R.array.weight_units, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> heightAdapter = ArrayAdapter.createFromResource(getContext(), R.array.height_units, android.R.layout.simple_spinner_item);
+        autoSave = view.findViewById(R.id.autoSave);
 
-        weightAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-        heightAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+        bmiResult = view.findViewById(R.id.bmiResult);
+        weightResult = view.findViewById(R.id.weightResult);
+        heightResult = view.findViewById(R.id.heightResult);
+        resultsLayout = view.findViewById(R.id.results);
 
-        weightSpinner.setAdapter(weightAdapter);
-        heightSpinner.setAdapter(heightAdapter);
+        switch (sharedPreferences.getInt("remember", 0)) {
+            case 1:
+                remember.setChecked(true);
+                break;
+            case 2:
+                remember.setChecked(false);
+                break;
+        }
 
-        weightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        heightText.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    weightType = 0;
-                } else if (position == 1) {
-                    weightType = 1;
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+                    calculateBmi();
+                    return true;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        heightSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    heightType = 0;
-                } else if (position == 1) {
-                    heightType = 1;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                return false;
             }
         });
 
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db = new DatabaseHelper(getActivity());
+                calculateBmi();
+            }
+        });
 
-                String weightValueString = weightText.getText().toString();
-                String heightValueString = heightText.getText().toString();
-                float bmi;
-                String bmiValueString;
+        view.findViewById(R.id.autoSaveYes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.putInt("remember", 1).apply();
+                autoSave.setVisibility(View.INVISIBLE);
+            }
+        });
 
-                if (weightValueString.matches("") && heightValueString.matches("")) {
-                    weightText.setError("Please enter your weight!");
-                    heightText.setError("Please enter your height!");
-                } else if (weightValueString.matches("")) {
-                    weightText.setError("Please enter your weight!");
-                } else if (heightValueString.matches("")) {
-                    heightText.setError("Please enter your height!");
-                } else {
-                    weightValue = Float.parseFloat(weightText.getText().toString());
-                    heightValue = Float.parseFloat(heightText.getText().toString());
-
-                    bmi = (float) ((double) Math.round(10D * (double) (weightValue / (heightValue * heightValue))) / 10D);
-                    bmiValueString = String.valueOf(bmi);
-
-
-
-                    if (remember.isChecked()) {
-                        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new java.util.Date());
-
-                        SavedItemsModel savedItemsModel = new SavedItemsModel(null, bmi, weightValue, heightValue, currentDateTimeString);
-                        db.saveData(savedItemsModel);
-                    }
-
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(changeTab));
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(openScaleSection));
-                }
-
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(weightText.getWindowToken(), 0);
-                imm.hideSoftInputFromWindow(heightText.getWindowToken(), 0);
+        view.findViewById(R.id.autoSaveNo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editor.putInt("remember", 2).apply();
+                autoSave.setVisibility(View.INVISIBLE);
             }
         });
 
         return view;
     }
 
+    private void calculateBmi() {
+        String weightValueString = weightText.getText().toString();
+        String heightValueString = heightText.getText().toString();
+        float bmi;
+
+        if (weightValueString.matches("") && heightValueString.matches("")) {
+            weightText.setError("Please enter your weight!");
+            heightText.setError("Please enter your height!");
+        } else if (weightValueString.matches("")) {
+            weightText.setError("Please enter your weight!");
+        } else if (heightValueString.matches("")) {
+            heightText.setError("Please enter your height!");
+        } else {
+            Float weightValue = Float.parseFloat(weightText.getText().toString());
+            Float heightValue = Float.parseFloat(heightText.getText().toString());
+
+            bmi = (float) ((double) Math.round(10D * (double) (weightValue / (heightValue * heightValue))) / 10D);
+
+            if (remember.isChecked()) {
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new java.util.Date());
+
+                SavedItemsModel savedItemsModel = new SavedItemsModel(bmi, weightValue, heightValue, currentDateTimeString);
+                db.saveData(savedItemsModel);
+
+                //TODO: Show remember to remember
+                if (sharedPreferences.getInt("remember", 0) == 0) {
+                    autoSave.setVisibility(View.VISIBLE);
+                }
+
+                Intent intent = new Intent("update.scale");
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+
+            }
+
+            weightText.setText("");
+            heightText.setText("");
+
+            bmiResult.setText(getString(R.string.your_bmi_is, bmi));
+            weightResult.setText(getString(R.string.weight_value, weightValue));
+            heightResult.setText(getString(R.string.height_value, heightValue));
+            resultsLayout.setVisibility(View.VISIBLE);
+
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(weightText.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(heightText.getWindowToken(), 0);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (weightText != null) weightString = weightText.getText().toString();
+        if (heightText != null) heightString = heightText.getText().toString();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (weightString != null) weightText.setText(weightString);
+        if (heightString != null) heightText.setText(heightString);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        db.close();
+    }
 }

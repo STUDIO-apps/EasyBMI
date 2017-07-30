@@ -2,43 +2,38 @@ package uk.co.appsbystudio.easybmi.database;
 
 public class SavedItemsModel {
 
-    Integer id;
-    Float bmi;
-    Float weight;
-    Float height;
-    String dateTime;
+    private Float bmi;
+    private Float weight;
+    private Float height;
+    private String dateTime;
 
     public SavedItemsModel() {}
 
-    public SavedItemsModel(Float bmi) {
-        this.bmi = bmi;
+    public SavedItemsModel(Float bmi, Float weight, Float height, String dateTime) {
+        this.bmi = bmi != null? bmi : this.bmi;
+        this.weight = weight != null? weight : this.weight;
+        this.height = height != null? height : this.height;
+        this.dateTime = dateTime != null? dateTime : this.dateTime;
     }
 
-    public SavedItemsModel(Integer id, Float bmi) {
-        this.id = id;
-        this.bmi = bmi;
+    public Float getBmi() {
+        return bmi;
     }
 
-    public SavedItemsModel(Integer id, Float bmi, String dateTime) {
-        this.id = id;
-        this.bmi = bmi;
-        this.dateTime = dateTime;
+    public Float getWeight() {
+        return weight;
     }
 
-    public SavedItemsModel(Integer id, Float bmi, Float weight, Float height, String dateTime) {
-        this.id = id;
-        this.bmi = bmi;
-        this.weight = weight;
-        this.height = height;
-        this.dateTime = dateTime;
+    public Float getHeight() {
+        return height;
+    }
+
+    public String getDateTime() {
+        return dateTime;
     }
 
     public void setBmi(Float bmi) {
         this.bmi = bmi;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public void setDateTime(String dateTime) {
@@ -51,25 +46,5 @@ public class SavedItemsModel {
 
     public void setHeight(Float height) {
         this.height = height;
-    }
-
-    public Float getBmi() {
-        return bmi;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public Float getWeight() {
-        return weight;
-    }
-
-    public Float getHeight() {
-        return height;
     }
 }

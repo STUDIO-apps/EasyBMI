@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     tools:context="uk.co.appsbystudio.easybmi.pages.History">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/historyList"/>
+        android:id="@+id/historyRecycler"/>
 
 </FrameLayout>
