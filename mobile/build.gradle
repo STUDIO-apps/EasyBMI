@@ -8,8 +8,8 @@ android {
         applicationId "uk.co.appsbystudio.easybmi"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.0.8"
+        versionCode 11
+        versionName "2.0.1"
     }
     buildTypes {
         release {

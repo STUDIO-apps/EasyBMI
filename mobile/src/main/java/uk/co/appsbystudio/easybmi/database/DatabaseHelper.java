@@ -81,7 +81,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery("SELECT bmi FROM BMI_HISTORY ORDER BY timestamp DESC LIMIT 1", null);
         cursor.moveToFirst();
-        entry = cursor.getFloat(cursor.getColumnIndex("bmi"));
+
+        if (cursor.getCount() != 0) entry = cursor.getFloat(cursor.getColumnIndex("bmi"));
+        else return 0f;
 
         cursor.close();
         db.close();

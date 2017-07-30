@@ -38,7 +38,8 @@ public class ScaleAdapter extends RecyclerView.Adapter<ScaleAdapter.ViewHolder> 
         holder.scale.setText(scaleList[position]);
         holder.info.setText(infoList[position]);
 
-        if (bmiResult < 15  && scaleList[position].equals("Very severely underweight")) {
+
+        if (bmiResult < 15 && bmiResult > 0 && scaleList[position].equals("Very severely underweight")) {
             holder.bmiValue.setText(String.format(Locale.ENGLISH, "%.2f", bmiResult));
             holder.scale.setTextColor(ResourcesCompat.getColor(context.getResources(), R.color.colorAccent, null));
         } else if (bmiResult > 15 && bmiResult < 16  && scaleList[position].equals("Severely underweight")) {
